@@ -26,10 +26,34 @@ app.get('/try-db', (req, res) => {
 });
 
 
-// app.use(express.static, require(__dirname + '/../public'));
-// app.use('/login-api', require(__dirname + '/Cha/cha'));
+app.use(express.static(__dirname + '/../public'));
+
+//範例
+app.use('/example', require(__dirname + '/Name/example'));
+
+
+//引入的檔案裡面一定要有東西，不然會報錯，所以先註解掉
+
+//Cha
+// app.use('/cart', require(__dirname + '/Cha'));
+
+// Claudia
+// app.use('/farm', require(__dirname + '/Claudia'));
+
+// Iris
+// app.use('/member', require(__dirname + '/Iris'));
+
+//Janice
+// app.use('/index', require(__dirname + '/Janice'));
+
+//Jess
+// app.use('/bento', require(__dirname + '/Jess'));
+
+//Ru
+// app.use('/product', require(__dirname + '/Ru'));
+
 
 // Server
 app.listen(5000, () => {
-    console.log('伺服器已啟動...');
+    console.log('伺服器已啟動');
 })
