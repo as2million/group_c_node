@@ -10,8 +10,5 @@ router.get('/info/:id?', async (req, res) => {
 
 });
 
-router.get('/my-params1/:id?', (req, res) => {
-    res.json(req.params);
-});
 
 module.exports = router;
