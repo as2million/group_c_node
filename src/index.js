@@ -16,6 +16,15 @@ const upload = multer({ dest: __dirname + '/../tmp_uploads' });
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+const corsOptions = {
+    credentials: true,
+    origin: function (origin, cb) {
+        console.log(`origin: ${origin}`);
+        cb(null, true);
+    }
+};
+app.use(cors(corsOptions));
+
 
 //連線資料庫
 app.get('/try-db', (req, res) => {
@@ -38,7 +47,7 @@ app.use('/example', require(__dirname + '/Name/example'));
 // app.use('/cart', require(__dirname + '/Cha'));
 
 // Claudia
-// app.use('/farm', require(__dirname + '/Claudia'));
+app.use('/farm', require(__dirname + '/Claudia/test'));
 
 // Iris
 // app.use('/member', require(__dirname + '/Iris'));
