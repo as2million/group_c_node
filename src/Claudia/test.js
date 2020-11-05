@@ -15,5 +15,3 @@ router.get('/my-params1/:id?', (req, res) => {
 });
 
 module.exports = router;
-
-//網址列輸入 localhost:5000/farm/info 看結果
