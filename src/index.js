@@ -16,10 +16,20 @@ const upload = multer({ dest: __dirname + '/../tmp_uploads' });
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+const corsOptions = {
+    credentials: true,
+    orogin: function (origin, cb){
+        console.log(`origin: ${origin}`);
+        cb(null,true);
+    }
+};
+
+app.use(cors(corsOptions))
+
 
 //連線資料庫
 app.get('/try-db', (req, res) => {
-    db.query('SELECT * FROM taiwan_farms LIMIT 5')
+    db.query('SELECT * FROM coupon_list LIMIT 2')
         .then(([results]) => {
             res.json(results);
         })
@@ -31,6 +41,11 @@ app.use(express.static(__dirname + '/../public'));
 //範例
 app.use('/example', require(__dirname + '/Name/example'));
 
+// 測試
+const parser = express.urlencoded({ extended: false });
+app.post("/try-post", parser, (req, res) => {
+  res.json(req.body);
+});
 
 //引入的檔案裡面一定要有東西，不然會報錯，所以先註解掉
 
@@ -41,7 +56,7 @@ app.use('/example', require(__dirname + '/Name/example'));
 // app.use('/farm', require(__dirname + '/Claudia'));
 
 // Iris
-// app.use('/member', require(__dirname + '/Iris'));
+app.use('/member', require(__dirname + '/Iris/iris'));
 
 //Janice
 // app.use('/index', require(__dirname + '/Janice'));
