@@ -31,7 +31,7 @@ router.get("/try-db", (req, res) => {
     });
 });
 
-// 取得會員資料
+// 取得會員資料以做比對
 router.get("/login", (req, res) => {
   db.query("SELECT * FROM member_list").then(([results, fields]) => {
     res.json(results);
@@ -39,7 +39,21 @@ router.get("/login", (req, res) => {
 });
 
 // 新增會員資料
-
+router.post("/userRegister", (req, res) => {
+  const newRegister = req.body;
+  const sql =
+    "INSERT INTO `member_list`( `account`, `password`,`mobile`, `email`) VALUES ('" +
+    newRegister.account +
+    "','" +
+    newRegister.password +
+    "','" +
+    newRegister.mobile +
+    "','" +
+    newRegister.email +
+    "')";
+  db.query(sql);
+  res.json(newRegister);
+});
 
 // 更新會員資料
 // 做到一半
@@ -51,24 +65,45 @@ router.post("/updateProfile", (req, res) => {
   const address = fulladdress.slice(6);
 
   const sql =
-    "INSERT INTO `member_list` (`password`, `name`, `birthday`, `mobile`, `email`, `county`, `district`, `address`) VALUES ('" +
+    // "INSERT INTO `member_list` (`password`, `name`, `birthday`, `mobile`, `email`, `county`, `district`, `address`) VALUES ('" +
+    // newProfile.password +
+    // "','" +
+    // newProfile.familyname +
+    // newProfile.givenname +
+    // "','" +
+    // newProfile.birthday +
+    // "','" +
+    // newProfile.mobile +
+    // "','" +
+    // newProfile.email +
+    // "','" +
+    // county +
+    // "','" +
+    // district +
+    // "','" +
+    // address +
+    // "')";
+    " UPDATE `member_list` SET `account`='" +
+    newProfile.account +
+    "',`password`='" +
     newProfile.password +
-    "','" +
-    newProfile.familyname +
-    newProfile.givenname +
-    "','" +
+    "',`name`='" +
+    newProfile.account +
+    "',`birthday`='" +
     newProfile.birthday +
-    "','" +
+    "',`mobile`='" +
     newProfile.mobile +
-    "','" +
+    "',`email`='" +
     newProfile.email +
-    "','" +
-    county +
-    "','" +
-    district +
-    "','" +
-    address +
-    "')";
+    "',`county`='" +
+    newProfile.county +
+    "',`district`='" +
+    newProfile.district +
+    "',`address`='" +
+    newProfile.address +
+    "' WHERE `member_sid` = '" +
+    newProfile.member_sid +
+    "'";
   db.query(sql);
   res.json(newProfile);
 });
