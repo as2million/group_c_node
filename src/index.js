@@ -17,14 +17,33 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 
-//連線資料庫
-app.get('/try-db', (req, res) => {
-    db.query('SELECT * FROM taiwan_farms LIMIT 5')
-        .then(([results]) => {
-            res.json(results);
-        })
-});
+const corsOptions = {
+  // 跨網域 操作cookie 要設定true
+  credentials: true,
+  //每次進來都會拿到一個cb
+  origin: function (origin, cb) {
+    console.log(`origin: ${origin}`)
+    //前面是錯誤 後面是允許
+    cb(null, true)
+  },
+}
+app.use(cors(corsOptions))
 
+// //連線資料庫
+// app.get('/try-db', (req, res) => {
+//     db.query('SELECT * FROM `product` WHERE 1')
+//         .then(([results]) => {
+//             res.json(results);
+//         })
+// });
+
+
+// app.get('/product', (req, res) => {
+//     db.query('SELECT * FROM product LIMIT 5')
+//         .then(([results]) => {
+//             res.json(results);
+//         })
+// });
 
 app.use(express.static(__dirname + '/../public'));
 
@@ -46,8 +65,8 @@ app.use('/example', require(__dirname + '/Name/example'));
 //Janice
 // app.use('/index', require(__dirname + '/Janice'));
 
-//Jess
-// app.use('/bento', require(__dirname + '/Jess'));
+//Jess 商品
+app.use('/product', require(__dirname + '/Jess/jess'));
 
 //Ru
 // app.use('/product', require(__dirname + '/Ru'));
