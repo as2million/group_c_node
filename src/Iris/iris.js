@@ -23,22 +23,45 @@ router.get("/try-db", (req, res) => {
   db.query(
     "SELECT * FROM `my_fav` INNER JOIN `product` ON `my_fav`.`product_sid`=`product`.`sid`"
   )
-    // 他本身是一個promise，所以這邊就直接then
-    // 結果會回傳一個array，array的第一個值(results)才是要的，第二個(fields)是欄位的定義(可省)
-    // 這邊第二個值沒要用到
     .then(([results, fields]) => {
       res.json(results);
     });
 });
 
-// 取得會員資料以做比對
-router.get("/login", (req, res) => {
+// SELECT * FROM `my_fav` INNER JOIN `product` ON `my_fav`.`product_sid`=`product`.`sid` WHERE `member_sid`='1'
+
+// -------- 取得我的最愛--------------//
+router.get("/myFavList", (req, res) => {
+  db.query(
+    "SELECT * FROM `my_fav` INNER JOIN `product` ON `my_fav`.`product_sid`=`product`.`sid`"
+  ).then(([results, fields]) => {
+    res.json(results);
+  });
+});
+
+// ------- 取得會員資料(登入,修改頁面) ------- //
+router.get("/allUserProfile", (req, res) => {
   db.query("SELECT * FROM member_list").then(([results, fields]) => {
     res.json(results);
   });
 });
 
-// 新增會員資料
+// ---------- 新增最愛 ---------- //
+router.post("/addMyFav", (req, res) => {
+  const newFavItem = req.body;
+
+  const sql =
+    "INSERT INTO `my_fav` set `product_sid`='" +
+    newFavItem.product_sid +
+    "',`member_sid`='" +
+    newFavItem.currentUser +
+    "'";
+
+  db.query(sql);
+  res.json(newFavItem);
+});
+
+// ---------- 會員註冊 ---------- //
 router.post("/userRegister", (req, res) => {
   const newRegister = req.body;
   const sql =
@@ -55,8 +78,7 @@ router.post("/userRegister", (req, res) => {
   res.json(newRegister);
 });
 
-// 更新會員資料
-// 做到一半
+// ---------- 更新會員資料 ---------- //
 router.post("/updateProfile", (req, res) => {
   const newProfile = req.body;
   const fulladdress = "" + req.body.address;
@@ -65,30 +87,11 @@ router.post("/updateProfile", (req, res) => {
   const address = fulladdress.slice(6);
 
   const sql =
-    // "INSERT INTO `member_list` (`password`, `name`, `birthday`, `mobile`, `email`, `county`, `district`, `address`) VALUES ('" +
-    // newProfile.password +
-    // "','" +
-    // newProfile.familyname +
-    // newProfile.givenname +
-    // "','" +
-    // newProfile.birthday +
-    // "','" +
-    // newProfile.mobile +
-    // "','" +
-    // newProfile.email +
-    // "','" +
-    // county +
-    // "','" +
-    // district +
-    // "','" +
-    // address +
-    // "')";
-    " UPDATE `member_list` SET `account`='" +
-    newProfile.account +
-    "',`password`='" +
+    "UPDATE `member_list` SET `password`='" +
     newProfile.password +
     "',`name`='" +
-    newProfile.account +
+    newProfile.familyname +
+    newProfile.givenname +
     "',`birthday`='" +
     newProfile.birthday +
     "',`mobile`='" +
@@ -96,13 +99,13 @@ router.post("/updateProfile", (req, res) => {
     "',`email`='" +
     newProfile.email +
     "',`county`='" +
-    newProfile.county +
+    county +
     "',`district`='" +
-    newProfile.district +
+    district +
     "',`address`='" +
-    newProfile.address +
+    address +
     "' WHERE `member_sid` = '" +
-    newProfile.member_sid +
+    newProfile.currentUser +
     "'";
   db.query(sql);
   res.json(newProfile);
