@@ -22,10 +22,9 @@ router.get("/try-db", (req, res) => {
   // db.query( 'SELECT * FROM my_fav')
   db.query(
     "SELECT * FROM `my_fav` INNER JOIN `product` ON `my_fav`.`product_sid`=`product`.`sid`"
-  )
-    .then(([results, fields]) => {
-      res.json(results);
-    });
+  ).then(([results, fields]) => {
+    res.json(results);
+  });
 });
 
 // SELECT * FROM `my_fav` INNER JOIN `product` ON `my_fav`.`product_sid`=`product`.`sid` WHERE `member_sid`='1'
@@ -59,6 +58,19 @@ router.post("/addMyFav", (req, res) => {
 
   db.query(sql);
   res.json(newFavItem);
+});
+
+// ---------- 刪除最愛 ---------- //
+router.post("/deleteMyFav", (req, res) => {
+  const itemToBeDelete = req.body;
+  const sql =
+    "DELETE FROM `my_fav` WHERE `member_sid`='" +
+    itemToBeDelete.currentUser +
+    "' AND `product_sid`='" +
+    itemToBeDelete.product_sid +
+    "'";
+  db.query(sql);
+  res.json(itemToBeDelete);
 });
 
 // ---------- 會員註冊 ---------- //
