@@ -9,25 +9,14 @@ const router = express.Router();
 //引入需要用的套件
 const { v4: uuidv4 } = require("uuid");
 
-//路由名稱+功能
-router.get("/try-uuid", (req, res) => {
-  res.json({
-    uuid1: uuidv4(),
-    uuid2: uuidv4(),
-  });
-});
-
-// 測試連線資料庫
-router.get("/try-db", (req, res) => {
-  // db.query( 'SELECT * FROM my_fav')
+// -------- 取得所有投稿資料--------------//
+router.get("/commetList", (req, res) => {
   db.query(
-    "SELECT * FROM `my_fav` INNER JOIN `product` ON `my_fav`.`product_sid`=`product`.`sid`"
+    "SELECT * FROM `product` INNER JOIN `message` ON `message`.`product_sid`=`product`.`sid`"
   ).then(([results, fields]) => {
     res.json(results);
   });
 });
-
-// SELECT * FROM `my_fav` INNER JOIN `product` ON `my_fav`.`product_sid`=`product`.`sid` WHERE `member_sid`='1'
 
 // -------- 取得我的最愛--------------//
 router.get("/myFavList", (req, res) => {
