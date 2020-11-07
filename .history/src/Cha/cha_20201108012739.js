@@ -39,31 +39,40 @@ router.get('/product', (req, res) => {
         })
 });
 
-// 新增訂單資料到「我的訂單」資料表
-router.post('/my-order', async (req, res)=>{
-    const sql = "INSERT INTO `my_order` set ?";
-    const [{affectedRows, insertId}] = await db.query(sql, [ req.body ]);
-    res.json({
-        success: !!affectedRows,
-        affectedRows,
-        insertId,
-    });
-});
+
+// 新增到「我的訂單」資料表
+
 // router.post('/my-order', async (req, res)=>{
 //     const sql = "INSERT INTO `my_order` set ?";
 //      await db.query(sql, [ req.body ]);
 //      res.json(req.body);
 //      });
-// 新增訂單資料到「我的訂單明細」資料表
 router.post('/my-order-detail', async (req, res)=>{
     const sql = "INSERT INTO `my_order_detail` set ?";
+     await db.query(sql, [ req.body ]);
+     res.json(req.body);
+});
+router.post('/my-order', async (req, res)=>{
+    const sql = "INSERT INTO `my_order` set ?";
     const [{affectedRows, insertId}] = await db.query(sql, [ req.body ]);
     res.json({
-        success: !!affectedRows,
-        affectedRows,
-        insertId,
-    });
-});
+                success: !!affectedRows,
+                affectedRows,
+                insertId,
+            });
+// router.post('/my-order', async (req, res)=>{
+//     const sql = "INSERT INTO `myorder` set ?";
+//     const [{affectedRows, insertId}] = await db.query(sql, [ req.body ]);
+//     res.json({
+//         success: !!affectedRows,
+//         affectedRows,
+//         insertId,
+//     });
+// });
+// router.post('/myorder', async (req, res)=>{
+//     const sql = "INSERT INTO `address_book` set ?";
+//      await db.query(sql, [ req.body ]);
+// });
 // 手機格式
 // app.get(/^\/m\/09\d{2}-?\d{3}-?\d{3}$/i, (req, res)=> {
 //     let u = req.url.slice(3).split('?')[0];

@@ -13,26 +13,17 @@ const db = require(__dirname + '/db_connect');
 const sessionStore = new MysqlStore({}, db);
 const upload = multer({ dest: __dirname + '/../tmp_uploads' });
 
-// 處理表單資料的body-parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-// 開啟CORS
-const corsOptions = {
-    credentials: true,
-    origin: function(origin, cb){
-        console.log(`origin: ${origin}`);
-        cb(null, true);
-    }
-};
-app.use(cors(corsOptions));
 
-// //連線資料庫
-// app.get('/try-db', (req, res) => {
-//     db.query('SELECT * FROM `member_list` WHERE 1')
-//         .then(([results]) => {
-//             res.json(results);
-//         })
-// });
+
+//連線資料庫
+app.get('/try-db', (req, res) => {
+    db.query('SELECT * FROM `member_list` WHERE 1')
+        .then(([results]) => {
+            res.json(results);
+        })
+});
 
 
 app.use(express.static(__dirname + '/../public'));
@@ -44,7 +35,7 @@ app.use('/example', require(__dirname + '/Name/example'));
 //引入的檔案裡面一定要有東西，不然會報錯，所以先註解掉
 
 //Cha
-app.use('/cart-api', require(__dirname + '/Cha/cha'));
+// app.use('/cart', require(__dirname + '/Cha'));
 
 // Claudia
 // app.use('/farm', require(__dirname + '/Claudia'));

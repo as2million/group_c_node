@@ -39,7 +39,10 @@ router.get('/product', (req, res) => {
         })
 });
 
-// 新增訂單資料到「我的訂單」資料表
+
+// 新增到「我的訂單」資料表
+
+
 router.post('/my-order', async (req, res)=>{
     const sql = "INSERT INTO `my_order` set ?";
     const [{affectedRows, insertId}] = await db.query(sql, [ req.body ]);
@@ -54,7 +57,6 @@ router.post('/my-order', async (req, res)=>{
 //      await db.query(sql, [ req.body ]);
 //      res.json(req.body);
 //      });
-// 新增訂單資料到「我的訂單明細」資料表
 router.post('/my-order-detail', async (req, res)=>{
     const sql = "INSERT INTO `my_order_detail` set ?";
     const [{affectedRows, insertId}] = await db.query(sql, [ req.body ]);

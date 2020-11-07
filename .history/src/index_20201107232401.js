@@ -12,6 +12,7 @@ const cors = require('cors');
 const db = require(__dirname + '/db_connect');
 const sessionStore = new MysqlStore({}, db);
 const upload = multer({ dest: __dirname + '/../tmp_uploads' });
+const upload = require(__dirname + '/../upload-img-module' );
 
 // 處理表單資料的body-parser
 app.use(express.urlencoded({ extended: false }));
