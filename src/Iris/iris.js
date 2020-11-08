@@ -49,6 +49,13 @@ router.get("/myFavList", (req, res) => {
   });
 });
 
+// -------- 取得優惠券資訊--------------//
+router.get("/couponList", (req, res) => {
+  db.query("SELECT * FROM `coupon_list`").then(([results, fields]) => {
+    res.json(results);
+  });
+});
+
 // ------- 取得會員資料(登入,修改頁面) ------- //
 router.get("/allUserProfile", (req, res) => {
   db.query("SELECT * FROM member_list").then(([results, fields]) => {
