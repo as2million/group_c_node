@@ -134,8 +134,8 @@ router.post("/updateProfile", (req, res) => {
     district +
     "',`address`='" +
     address +
-    "' WHERE `member_sid` = '" +
-    newProfile.currentUser +
+    "' WHERE `member_sid`='" +
+    newProfile.member_id +
     "'";
   db.query(sql);
   res.json(newProfile);
