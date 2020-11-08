@@ -17,23 +17,20 @@ router.get('/member', (req, res) => {
 });
 
 // GET我的訂單資料表
-router.get('/my-order/:id', (req, res) => {
-    db.query(`SELECT * FROM \`my_order\` WHERE member_sid =${req.params.id}`)
+router.get('/my-order', (req, res) => {
+    db.query('SELECT * FROM `my_order` WHERE 1')
         .then(([results]) => {
             res.json(results);
         })
 });
 
 // GET訂單明細資料表
-router.get('/my-order-detail/:id', (req, res) => {
-    db.query(`SELECT * FROM \`my_order_detail\` WHERE order_sid = ${req.params.id}`)
+router.get('/my-order-detail', (req, res) => {
+    db.query('SELECT * FROM `my_order` WHERE order_id=req.params')
     // res.json({
     //     id:req.params.id
     // })
-    .then(([results]) => {
-        res.json(results);
     })
-    });
 // router.get('/my-order-detail/:id', (req, res) => {
 //     db.query('SELECT * FROM `my_order` WHERE order_id=req.params')
 //     res.json({
@@ -71,16 +68,11 @@ router.post('/my-order', async (req, res)=>{
 router.post('/my-order-detail', async (req, res)=>{
     // console.log(req.body)
 
-     const sql = "INSERT INTO `my_order_detail` (order_sid,product_sid,product_amount, product_name,product_price) VALUES ?";
+     const sql = "INSERT INTO `my_order_detail` (product_sid,product_amount, product_name,product_price) VALUES ?";
 
-     const rebuild =req.body.map((item)=>[item.order_sid,item.product_sid,item.product_amount,item.product_name,item.product_price ])
+     const rebuild =req.body.map((item)=>[item.product_sid,item.product_amount,item.product_name,item.product_price ])
     // console.log(rebuild)
-    const [{affectedRows, insertId}] = await db.query(sql, [rebuild]);
-    res.json({
-        success: !!affectedRows,
-        affectedRows,
-        insertId,
-    });
+     await db.execute(sql, [[[2,5,'哈哈哈',150],[3,7,'哈哈哈',150]]]);
 });
 
 // 手機格式

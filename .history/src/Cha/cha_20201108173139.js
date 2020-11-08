@@ -17,16 +17,16 @@ router.get('/member', (req, res) => {
 });
 
 // GET我的訂單資料表
-router.get('/my-order/:id', (req, res) => {
-    db.query(`SELECT * FROM \`my_order\` WHERE member_sid =${req.params.id}`)
+router.get('/my-order', (req, res) => {
+    db.query('SELECT * FROM `my_order` WHERE 1')
         .then(([results]) => {
             res.json(results);
         })
 });
 
 // GET訂單明細資料表
-router.get('/my-order-detail/:id', (req, res) => {
-    db.query(`SELECT * FROM \`my_order_detail\` WHERE order_sid = ${req.params.id}`)
+router.get('/my-order-detail', (req, res) => {
+    db.query('SELECT * FROM `my_order_detail` WHERE 1')
     // res.json({
     //     id:req.params.id
     // })

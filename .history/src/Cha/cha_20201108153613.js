@@ -17,33 +17,24 @@ router.get('/member', (req, res) => {
 });
 
 // GET我的訂單資料表
-router.get('/my-order/:id', (req, res) => {
-    db.query(`SELECT * FROM \`my_order\` WHERE member_sid =${req.params.id}`)
+router.get('/my-order', (req, res) => {
+    db.query('SELECT * FROM `my_order` WHERE 1')
         .then(([results]) => {
             res.json(results);
         })
 });
 
 // GET訂單明細資料表
-router.get('/my-order-detail/:id', (req, res) => {
-    db.query(`SELECT * FROM \`my_order_detail\` WHERE order_sid = ${req.params.id}`)
-    // res.json({
-    //     id:req.params.id
-    // })
-    .then(([results]) => {
-        res.json(results);
+router.get('/my-order-detail/', (req, res) => {
+    
+    res.json({
+        id:JSON.stringify(req)
     })
-    });
-// router.get('/my-order-detail/:id', (req, res) => {
-//     db.query('SELECT * FROM `my_order` WHERE order_id=req.params')
-//     res.json({
-//         id:req.params.id
-//     })
     // db.query('SELECT * FROM `my_order_detail` WHERE 1')
     //     .then(([results]) => {
     //         res.json(results);
     //     })
-// });
+});
 // GET商品資料表
 router.get('/product', (req, res) => {
     db.query('SELECT * FROM `product` WHERE 1')
@@ -69,20 +60,20 @@ router.post('/my-order', async (req, res)=>{
 //      });
 // 新增訂單資料到「我的訂單明細」資料表
 router.post('/my-order-detail', async (req, res)=>{
-    // console.log(req.body)
-
-     const sql = "INSERT INTO `my_order_detail` (order_sid,product_sid,product_amount, product_name,product_price) VALUES ?";
-
-     const rebuild =req.body.map((item)=>[item.order_sid,item.product_sid,item.product_amount,item.product_name,item.product_price ])
-    // console.log(rebuild)
-    const [{affectedRows, insertId}] = await db.query(sql, [rebuild]);
+    console.log(req.body)
+    //  const sql = "INSERT INTO `my_order_detail` set ?";
+    //  const [{affectedRows, insertId}] = await db.query(sql, [ req.body ]);
+    //  res.json({
+    //      success: !!affectedRows,
+    //      affectedRows,
+    //      insertId,
+    //  });
     res.json({
-        success: !!affectedRows,
-        affectedRows,
-        insertId,
+        success: '123',
+        affectedRows: '456',
+        insertId: '789',
     });
 });
-
 // 手機格式
 // app.get(/^\/m\/09\d{2}-?\d{3}-?\d{3}$/i, (req, res)=> {
 //     let u = req.url.slice(3).split('?')[0];
