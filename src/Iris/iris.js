@@ -17,6 +17,19 @@ router.get("/commetList", (req, res) => {
     res.json(results);
   });
 });
+// NOW()
+// -------- 更新投稿資料------------//
+router.post("/updateComment", (req, res) => {
+  const updatedComment = req.body;
+  const sql =
+    "UPDATE `message` SET `created_at`= NOW(),`content`='" +
+    updatedComment.newComment +
+    "' WHERE `sid`='" +
+    updatedComment.commentSid +
+    "'";
+  db.query(sql);
+  res.json(updatedComment);
+});
 
 // -------- 取得我的最愛--------------//
 router.get("/myFavList", (req, res) => {
