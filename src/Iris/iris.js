@@ -31,6 +31,15 @@ router.post("/updateComment", (req, res) => {
   res.json(updatedComment);
 });
 
+// -------- 刪除投稿 -------- //
+router.post("/deleteComment", (req, res) => {
+  const commentToBeDelete = req.body;
+  const sql =
+    "DELETE FROM `message` WHERE `sid`='" + commentToBeDelete.commentSid + "' ";
+  db.query(sql);
+  res.json(commentToBeDelete);
+});
+
 // -------- 取得我的最愛--------------//
 router.get("/myFavList", (req, res) => {
   db.query(
