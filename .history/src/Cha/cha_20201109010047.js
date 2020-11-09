@@ -16,6 +16,14 @@ router.get('/member/:id', (req, res) => {
             res.json(results);
         })
 });
+
+// GET我的訂單資料表
+router.get('/my-order/:id', (req, res) => {
+    db.query(`SELECT * FROM \`my_order\` WHERE member_sid =${req.params.id}`)
+        .then(([results]) => {
+            res.json(results);
+        })
+    });
     
 // 新增訂單資料到「我的訂單」資料表
     router.post('/my-order', async (req, res)=>{
@@ -58,7 +66,6 @@ router.get('/my-order/:id', (req, res) => {
 //      await db.query(sql, [ req.body ]);
 //      res.json(req.body);
 //      });
-
 // GET訂單明細資料表
 router.get('/my-order-detail/:id', (req, res) => {
     db.query(`SELECT * FROM \`my_order_detail\` WHERE order_sid = ${req.params.id}`)

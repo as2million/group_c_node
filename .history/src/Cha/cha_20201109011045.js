@@ -11,7 +11,7 @@ const db = require(__dirname + '/../db_connect');
 //// 購物車的API
 // GET會員資料表
 router.get('/member/:id', (req, res) => {
-    db.query(`SELECT * FROM \`member_list\` WHERE member_sid =${req.params.id}`)
+    db.query(`SELECT * FROM \`member_list\` WHERE sid =${req.params.id}`)
         .then(([results]) => {
             res.json(results);
         })
