@@ -53,7 +53,7 @@ app.use("/example", require(__dirname + "/Name/example"));
 // app.use('/index', require(__dirname + '/Janice'));
 
 //Jess
-// app.use('/bento', require(__dirname + '/Jess'));
+app.use('/product', require(__dirname + '/Jess/jess'));
 
 //Ru
 app.use("/product", require(__dirname + "/Ru/ru"));
