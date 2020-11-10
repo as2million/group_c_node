@@ -29,21 +29,8 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 
-// //連線資料庫
-// app.get('/try-db', (req, res) => {
-//     db.query('SELECT * FROM `product` WHERE 1')
-//         .then(([results]) => {
-//             res.json(results);
-//         })
-// });
 
 
-// app.get('/product', (req, res) => {
-//     db.query('SELECT * FROM product LIMIT 5')
-//         .then(([results]) => {
-//             res.json(results);
-//         })
-// });
 
 app.use(express.static(__dirname + '/../public'));
 
