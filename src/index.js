@@ -62,7 +62,7 @@ app.use('/example', require(__dirname + '/Name/example'));
 // app.use('/farm', require(__dirname + '/Claudia'));
 
 // Iris
-// app.use('/member', require(__dirname + '/Iris'));
+app.use('/member', require(__dirname + '/Iris/iris'));
 
 //Janice
 app.use('/index', require(__dirname + '/Janice/janice'));
