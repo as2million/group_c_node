@@ -49,6 +49,8 @@ app.use(express.static(__dirname + '/../public'));
 app.use('/example', require(__dirname + '/Name/example'));
 
 
+
+
 //引入的檔案裡面一定要有東西，不然會報錯，所以先註解掉
 
 //Cha
@@ -61,7 +63,7 @@ app.use('/farm', require(__dirname + '/Claudia/test'));
 app.use('/member', require(__dirname + '/Iris/Iris'));
 
 //Janice
-// app.use('/index', require(__dirname + '/Janice'));
+app.use('/index', require(__dirname + '/Janice/janice'));
 
 //Jess 商品
 app.use('/product', require(__dirname + '/Jess/jess'));
