@@ -5,6 +5,12 @@ const moment=require('moment-timezone');
 const { now } = require('moment-timezone');
 const db = require(__dirname + '/../db_connect');
 
+//會員狀態
+router.get("/allUserProfile", (req, res) => {
+  db.query("SELECT * FROM member_list").then(([results, fields]) => {
+    res.json(results);
+  });
+});
 
 
 
@@ -28,10 +34,10 @@ router.get('/message', (req, res) => {
 //嫩雞胸的所有資料，包含會員姓名（JessListD
 router.get("/bentoMsg", async (req, res) => {
   const output = { total:[]}
-  let sql = `SELECT member_list.name,member_list.member_sid,message.content,message.product_sid,message.created_at,message.starRating FROM message INNER JOIN member_list on member_list.member_sid=message.member_sid WHERE product_sid=1 ORDER BY sid DESC`
+  let sql = `SELECT member_list.name,member_list.member_sid,message.sid,message.content,message.product_sid,message.created_at,message.starRating FROM message INNER JOIN member_list on member_list.member_sid=message.member_sid WHERE product_sid=1 ORDER BY sid DESC`
   const [r2] = await db.query(sql)
   r2.forEach(element => {
-    element.created_at = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
+    element.created_at = moment(element.created_at).format("YYYY-MM-DD HH:mm:ss")
   });
   // console.log(r2)
   output.total=r2
@@ -43,15 +49,17 @@ router.get("/bentoMsg", async (req, res) => {
 //取得會員1的留言
 router.get("/member1msg", async (req, res) => {
   const output = { total:[]}
-  let sql = `SELECT * FROM message WHERE member_sid=1 ORDER BY sid DESC LIMIT 5`
+  let sql = `SELECT * FROM message WHERE member_sid=1 ORDER BY sid DESC LIMIT 3`
   const [r2] = await db.query(sql)
   r2.forEach(element => {
-    element.created_at = moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
+    element.created_at = moment(element.created_at ).format("YYYY-MM-DD HH:mm:ss")
   });
-  console.log(r2)
+  // console.log(r2)
   output.total=r2
   res.json(r2)
 })
+
+
 
 //會員sid-1 POST
 router.post('/member1msg', (req, res) => {
@@ -62,14 +70,7 @@ router.post('/member1msg', (req, res) => {
   res.json(newMessage);
 });
 
-//會員fav POST
-router.post('/fav', (req, res) => {
-  const newfav = req.body;
-  console.log(newMessage);
-  const sql= "INSERT INTO `my_fav` (`product_sid`, `comments`, `member_sid`) VALUES ( '"+newfav.product_sid+"','"+newfav.comments+"', '"+newfav.content+"')"
-  db.query(sql);
-  res.json(newfav);
-});
+
 
 
 
