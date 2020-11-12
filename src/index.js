@@ -17,30 +17,24 @@ const upload = multer({ dest: __dirname + '/../tmp_uploads' });
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// 開啟CORS
 const corsOptions = {
     credentials: true,
-    origin: function(origin, cb){
+    orogin: function (origin, cb){
         console.log(`origin: ${origin}`);
-        cb(null, true);
+        cb(null,true);
     }
 };
-app.use(cors(corsOptions));
 
-
-const corsOptions = {
-  // 跨網域 操作cookie 要設定true
-  credentials: true,
-  //每次進來都會拿到一個cb
-  origin: function (origin, cb) {
-    console.log(`origin: ${origin}`)
-    //前面是錯誤 後面是允許
-    cb(null, true)
-  },
-}
 app.use(cors(corsOptions))
 
 
+//連線資料庫
+app.get('/try-db', (req, res) => {
+    db.query('SELECT * FROM coupon_list LIMIT 2')
+        .then(([results]) => {
+            res.json(results);
+        })
+});
 
 
 app.use(express.static(__dirname + '/../public'));
@@ -48,6 +42,11 @@ app.use(express.static(__dirname + '/../public'));
 //範例
 app.use('/example', require(__dirname + '/Name/example'));
 
+// 測試
+const parser = express.urlencoded({ extended: false });
+app.post("/try-post", parser, (req, res) => {
+  res.json(req.body);
+});
 
 
 
@@ -60,7 +59,7 @@ app.use('/cart-api', require(__dirname + '/Cha/cha'));
 app.use('/farm', require(__dirname + '/Claudia/test'));
 
 // Iris
-app.use('/member', require(__dirname + '/Iris/Iris'));
+app.use('/member', require(__dirname + '/Iris/iris'));
 
 //Janice
 app.use('/index', require(__dirname + '/Janice/janice'));

@@ -145,4 +145,4 @@ router.post("/updateProfile", (req, res) => {
 module.exports = router;
 
 //網址列輸入 localhost:5000/example/try-uuid 看結果
-// http://localhost:5000/member/try-db
+
