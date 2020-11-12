@@ -56,6 +56,43 @@ router.get("/couponList", (req, res) => {
   });
 });
 
+// -------- 取得優惠券領取狀態--------------//
+router.get("/couponStatus", (req, res) => {
+  db.query("SELECT * FROM `coupon_status`").then(([results, fields]) => {
+    res.json(results);
+  });
+});
+
+// ---------- 新增優惠券領取狀態 ---------- //
+router.post("/addCouponStatus", (req, res) => {
+  const newUserSid = req.body;
+
+  const sql =
+    "INSERT INTO `coupon_status` set `member_sid`='" +
+    newUserSid.currentUser +
+    "'";
+
+  db.query(sql);
+  res.json(newUserSid);
+});
+
+// ---------- 更改優惠券狀態 ---------- //
+router.post("/changeCouponStatus", (req, res) => {
+  const statusChanged = req.body;
+
+  const sql =
+    "UPDATE `coupon_status` SET `coupon1_status`='" +
+    statusChanged.coupon1 +
+    "',`coupon2_status`='" +
+    statusChanged.coupon2 +
+    "' WHERE `member_sid`='" +
+    statusChanged.currentUser +
+    "'";
+
+  db.query(sql);
+  res.json(statusChanged);
+});
+
 // ------- 取得會員資料(登入,修改頁面) ------- //
 router.get("/allUserProfile", (req, res) => {
   db.query("SELECT * FROM member_list").then(([results, fields]) => {
@@ -137,7 +174,14 @@ router.post("/updateProfile", (req, res) => {
     "' WHERE `member_sid`='" +
     newProfile.member_id +
     "'";
-  db.query(sql);
+  const sql2 =
+    "INSERT INTO `coupon_status`( `member_sid`) VALUES ('" +
+    newProfile.member_id +
+    "')";
+  // db.query(sql2);
+  setTimeout(db.query(sq2), [500]);
+  setTimeout(db.query(sql), [800]);
+
   res.json(newProfile);
 });
 
@@ -145,4 +189,3 @@ router.post("/updateProfile", (req, res) => {
 module.exports = router;
 
 //網址列輸入 localhost:5000/example/try-uuid 看結果
-
