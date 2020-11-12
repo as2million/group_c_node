@@ -20,6 +20,7 @@ router.get('/bento', (req, res) => {
     .then(([results]) => {
       res.json(results);
     })
+  
 });
 
 //連線message資料庫

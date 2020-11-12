@@ -16,6 +16,14 @@ router.get('/member/:id', (req, res) => {
             res.json(results);
         })
 });
+
+// GET我的訂單資料表
+router.get('/my-order/:id', (req, res) => {
+    db.query(`SELECT * FROM \`my_order\` WHERE member_sid =${req.params.id}`)
+        .then(([results]) => {
+            res.json(results);
+        })
+    });
     
 // 新增訂單資料到「我的訂單」資料表
     router.post('/my-order', async (req, res)=>{
@@ -53,13 +61,11 @@ router.get('/my-order/:id', (req, res) => {
             res.json(results);
         })
     });
-    
 // router.post('/my-order', async (req, res)=>{
 //     const sql = "INSERT INTO `my_order` set ?";
 //      await db.query(sql, [ req.body ]);
 //      res.json(req.body);
 //      });
-
 // GET訂單明細資料表
 router.get('/my-order-detail/:id', (req, res) => {
     db.query(`SELECT * FROM \`my_order_detail\` WHERE order_sid = ${req.params.id}`)
@@ -70,6 +76,25 @@ router.get('/my-order-detail/:id', (req, res) => {
         res.json(results);
     })
 });
+// router.get('/my-order-detail/:id', (req, res) => {
+    //     db.query('SELECT * FROM `my_order` WHERE order_id=req.params')
+    //     res.json({
+        //         id:req.params.id
+        //     })
+        // db.query('SELECT * FROM `my_order_detail` WHERE 1')
+    //     .then(([results]) => {
+    //         res.json(results);
+    //     })
+// });
+// // GET訂單明細資料表
+//     db.query(`SELECT * FROM \`my_order_detail\` WHERE order_sid = ${req.params.id}`)
+//     // res.json({
+//     //     id:req.params.id
+//     // })
+//     .then(([results]) => {
+//         res.json(results);
+//     })
+//     });
 
 // GET「我的訂單」+「我的訂單明細」資料表
 router.get('/my-order-my-order-detail/:id',async (req, res) => {
@@ -86,22 +111,10 @@ router.get('/my-order-my-order-detail/:id',async (req, res) => {
    })
    res.json(result);            
 });
-//修改訂單狀態
-router.post('/my-order-chang-state', async (req, res)=>{
-    const {sid, order_state} = req.body;
-    const sql =`UPDATE \`my_order\` SET order_state=?  WHERE sid=?`
-
-    const [result] = await db.query(sql, [ order_state, sid])
-    res.json(result)
-    // db.query(sql, [req.params.id])
-    // .then(([results]) => {
-    //     res.json(results);
-    })
 
 
 
 
-//其他API
 // GET商品資料表
 router.get('/product', (req, res) => {
     db.query('SELECT * FROM `product` WHERE 1')
