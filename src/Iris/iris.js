@@ -17,7 +17,7 @@ router.get("/commetList", (req, res) => {
     res.json(results);
   });
 });
-// NOW()
+
 // -------- 更新投稿資料------------//
 router.post("/updateComment", (req, res) => {
   const updatedComment = req.body;
@@ -74,6 +74,21 @@ router.post("/addCouponStatus", (req, res) => {
 
   db.query(sql);
   res.json(newUserSid);
+});
+
+// ---------- 新增優惠券  ---------- //
+router.post("/addCoupon", (req, res) => {
+  const newUserData = req.body;
+
+  const sql =
+    "INSERT INTO `coupon_list` set `member_sid`='" +
+    newUserData.currentUser +
+    "',`coupon_type`='" +
+    newUserData.coupon_type +
+    "',`coupon_due`=DATE_ADD(NOW(),INTERVAL 1 MONTH)";
+
+  db.query(sql);
+  res.json(newUserData);
 });
 
 // ---------- 更改優惠券狀態 ---------- //
