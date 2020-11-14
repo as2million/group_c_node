@@ -189,13 +189,7 @@ router.post("/updateProfile", (req, res) => {
     "' WHERE `member_sid`='" +
     newProfile.member_id +
     "'";
-  const sql2 =
-    "INSERT INTO `coupon_status`( `member_sid`) VALUES ('" +
-    newProfile.member_id +
-    "')";
-  // db.query(sql2);
-  setTimeout(db.query(sq2), [500]);
-  setTimeout(db.query(sql), [800]);
+  db.query(sql);
 
   res.json(newProfile);
 });
