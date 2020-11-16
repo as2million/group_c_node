@@ -48,9 +48,22 @@ router.get("/bentoMsg", async (req, res) => {
 
 
 //取得會員1的留言
+router.get("/member1msg2", async (req, res) => {
+  const output = { total:[]}
+  let sql = `SELECT  message.sid,message.content,message.starRating,message.product_sid,message.created_at,message.member_sid,product.productname FROM message INNER JOIN product on message.product_sid=product.sid WHERE member_sid=1 ORDER BY sid DESC LIMIT 2`
+  const [r2] = await db.query(sql)
+  r2.forEach(element => {
+    element.created_at = moment(element.created_at ).format("YYYY-MM-DD HH:mm:ss")
+  });
+  // console.log(r2)
+  output.total=r2
+  res.json(r2)
+})
+
+//取得會員1的留言
 router.get("/member1msg", async (req, res) => {
   const output = { total:[]}
-  let sql = `SELECT * FROM message WHERE member_sid=1 ORDER BY sid DESC LIMIT 3`
+  let sql = `SELECT * FROM message WHERE member_sid=1 ORDER BY sid DESC LIMIT 1`
   const [r2] = await db.query(sql)
   r2.forEach(element => {
     element.created_at = moment(element.created_at ).format("YYYY-MM-DD HH:mm:ss")
