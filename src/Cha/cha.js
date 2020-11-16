@@ -87,7 +87,7 @@ router.get('/my-order-my-order-detail/:id',async (req, res) => {
        const x = b.filter((e)=>e.order_sid===item.sid)
        return(
            {...item,
-        order_detail_test: x 
+        order_detail: x 
         }
        )
    })
