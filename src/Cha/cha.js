@@ -17,7 +17,7 @@ router.get('/member/:id', (req, res) => {
         })
 });
     
-// 新增訂單資料到「我的訂單」資料表
+// 從「購物車」新增訂單資料到「我的訂單」資料表
     router.post('/my-order', async (req, res)=>{
         const sql = "INSERT INTO `my_order` set ?";
         const [{affectedRows, insertId}] = await db.query(sql, [ req.body ]);
@@ -28,13 +28,13 @@ router.get('/member/:id', (req, res) => {
         });
     });
 
-// 新增到「我的訂單明細」資料表
+// 從「購物車」新增訂單資料到「我的訂單明細」資料表
 router.post('/my-order-detail', async (req, res)=>{
     // console.log(req.body)
 
-     const sql = "INSERT INTO `my_order_detail` (order_sid,product_sid,product_amount, product_name,product_price) VALUES ?";
+     const sql = "INSERT INTO `my_order_detail` (member_sid,order_sid,product_sid,product_amount, product_name,product_price,product_image) VALUES ?";
 
-     const rebuild =req.body.map((item)=>[item.order_sid,item.product_sid,item.product_amount,item.product_name,item.product_price ])
+     const rebuild =req.body.map((item)=>[item.member_sid,item.order_sid,item.product_sid,item.product_amount,item.product_name,item.product_price,item.product_image ])
     // console.log(rebuild)
     const [{affectedRows, insertId}] = await db.query(sql, [rebuild]);
     res.json({
@@ -43,10 +43,17 @@ router.post('/my-order-detail', async (req, res)=>{
         insertId,
     });
 });
+//從「購物車」刪除「優惠券資料表」的資料
+router.delete('/use-coupon/:sid',  async (req, res)=> {
 
+    const sql = "DELETE FROM `coupon_list` WHERE sid=?";
+    const [results] = await db.query(sql, [req.params.sid]);
 
-////訂單管理的API
-// GET我的訂單資料表
+    res.json(results);
+});
+
+//----------------訂單管理的API-------------------//
+// 從「訂單管理」讀取「我的訂單資料表」
 router.get('/my-order/:id', (req, res) => {
     db.query(`SELECT * FROM \`my_order\` WHERE member_sid =${req.params.id}`)
         .then(([results]) => {
@@ -60,7 +67,7 @@ router.get('/my-order/:id', (req, res) => {
 //      res.json(req.body);
 //      });
 
-// GET訂單明細資料表
+//從「訂單管理」讀取「訂單明細資料表」
 router.get('/my-order-detail/:id', (req, res) => {
     db.query(`SELECT * FROM \`my_order_detail\` WHERE order_sid = ${req.params.id}`)
     // res.json({
@@ -71,7 +78,7 @@ router.get('/my-order-detail/:id', (req, res) => {
     })
 });
 
-// GET「我的訂單」+「我的訂單明細」資料表
+// 從「訂單管理」讀取「我的訂單」+「我的訂單明細」資料表
 router.get('/my-order-my-order-detail/:id',async (req, res) => {
    const [a]= await db.query(`SELECT * FROM \`my_order\` WHERE member_sid =${req.params.id}`)
 //    res.json(results);
