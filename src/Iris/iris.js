@@ -143,6 +143,24 @@ router.post("/deleteMyFav", (req, res) => {
   res.json(itemToBeDelete);
 });
 
+// ---------- 會員登入 ---------- //
+router.post("/userLogin", (req, res) => {
+  const userinput = req.body;
+  const account = userinput.useraccount;
+  const password = userinput.userpassword;
+
+  const sql =
+    "SELECT * FROM `member_list` WHERE account='" +
+    account +
+    "' AND password='" +
+    password +
+    "'";
+
+  // db.query(sql).then((r) => console.log(r));
+
+  db.query(sql).then((r) => res.json(r));
+});
+
 // ---------- 會員註冊 ---------- //
 router.post("/userRegister", (req, res) => {
   const newRegister = req.body;
